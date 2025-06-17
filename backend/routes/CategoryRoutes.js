@@ -1,5 +1,5 @@
 import express from 'express'
-import { createCategory, deleteCategory, getAllCategories, getCategoryById, getCategoryBySlug, updateCategory, updateCategoryOrder, toggleCategoryVisibility } from '../controllers/CategoryController.js';
+import { createCategory, deleteCategory, getAllCategories, getCategoryById, getCategoryBySlug, updateCategory, updateCategoryOrder, toggleCategoryVisibility } from '../controllers/Category/CategoryController.js';
 
 
 const router = express.Router()
@@ -36,8 +36,6 @@ router.delete('/:id', deleteCategory);
 
 // @route   PATCH /api/v1/categories/toggleVisible/:id
 // @desc    PATCH toogle visible
-
-
 router.patch('/toggleVisible/:id', toggleCategoryVisibility)
 
 export default router;

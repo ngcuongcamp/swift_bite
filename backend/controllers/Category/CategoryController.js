@@ -1,8 +1,9 @@
-import { errorResponse, successResponse } from "../utils/responseUltil.js";
-import { categorySchema } from "../validators/category.schema.js";
-import Category from "../models/Category.js";
+import { errorResponse, successResponse } from "../../utils/responseUltil.js";
+import { categorySchema } from "../../validators/category.schema.js";
+import Category from "../../models/Category.js";
 import { ZodError } from "zod";
 import mongoose from "mongoose";
+import { generateSlug } from "../../utils/slug_generate.js";
 
 // TODO:
 // @desc    Create a new Category
@@ -19,7 +20,8 @@ export const createCategory = async (req, res) => {
 
         const category = new Category({
             ...validatedData,
-            order: newOrder
+            order: newOrder,
+            slug: generateSlug(validatedData.name)
         });
 
         await category.save()
@@ -66,6 +68,7 @@ export const getAllCategories = async (req, res) => {
     let page = parseInt(req.query.page) || 1
     let limit = parseInt(req.query.limit) || 10
 
+
     if (isNaN(page) || page < 1) {
         return errorResponse(res, {
             statusCode: 400,
@@ -89,12 +92,23 @@ export const getAllCategories = async (req, res) => {
     }
 
     const skip = (page - 1) * limit
+
+    const filter = {};
+
+    // 👇 Nếu có truyền isVisible (ví dụ: ?isVisible=true hoặc ?isVisible=false)
+    if (req.query.isVisible !== undefined) {
+        const isVisible = req.query.isVisible === 'true'; // chuỗi → boolean
+        filter.isVisible = isVisible;
+    }
+
+
+
     try {
         // 🧮 Pagination params
         const [categories, total] = await Promise.all([
-            Category.find().sort({ order: 1, createAt: -1 }) // sort uu tien order truoc sau do den createAt 
+            Category.find(filter).sort({ order: 1, createAt: -1 }) // sort uu tien order truoc sau do den createAt 
                 .skip(skip).limit(limit),
-            Category.countDocuments()
+            Category.countDocuments(filter)
         ])
 
         return successResponse(res, {

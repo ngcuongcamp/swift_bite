@@ -1,34 +1,28 @@
 import express from 'express'
 import {
-    getAllProducts,
     createProduct,
-    getProductById,
-    updateProduct,
+    // getAllProducts,
+    // getProductById,
+    // updateProduct,
     deleteProduct
-} from '../controllers/ProductController.js'
+} from '../controllers/Product/ProductController.js'
+import { updateProductInfo, updateProductStock, toggleProductVisibility } from '../controllers/Product/UpdateController.js'
 
 
 
 const router = express.Router()
 
-// @route   GET /api/products
-// @desc    Get all products with search, filter, pagination
-router.get('/', getAllProducts)
-
-// @route   POST /api/products
-// @desc    Create a new product
+// Thêm sản phẩm mới 
 router.post('/', createProduct)
 
-// @route   GET /api/products/:id
-// @desc    Get single product by ID
-router.get('/:id', getProductById)
-
-// @route   PUT /api/products/:id
-// @desc    Update product by ID
-router.put('/:id', updateProduct)
-
-// @route   DELETE /api/products/:id
-// @desc    Delete product by ID
+// Xóa sản phẩm
 router.delete('/:id', deleteProduct)
+
+// Cập nhật thông tin sản phẩm
+router.put('/info/:id', updateProductInfo)
+router.put('/stock/:id', updateProductStock)
+router.patch('/visibility/:id', toggleProductVisibility)
+
+
 
 export default router
