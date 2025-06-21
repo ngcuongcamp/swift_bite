@@ -3,7 +3,7 @@ import { categorySchema } from "../../validators/category.schema.js";
 import Category from "../../models/Category.js";
 import { ZodError } from "zod";
 import mongoose from "mongoose";
-import { generateSlug } from "../../utils/slug_generate.js";
+import { generateSlug } from "../../utils/slugGenerate.js";
 
 // TODO:
 // @desc    Create a new Category

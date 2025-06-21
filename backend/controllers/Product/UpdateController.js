@@ -2,7 +2,7 @@ import Product from '../../models/Product.js';
 import { ZodError } from 'zod';
 import { errorResponse, successResponse } from '../../utils/responseUltil.js';
 import { updateProductInfoSchema, updateProductStockSchema } from '../../validators/updateProduct.schema.js';
-import { generateSlug } from '../../utils/slug_generate.js';
+import { generateSlug } from '../../utils/slugGenerate.js';
 import mongoose from 'mongoose';
 
 
@@ -43,7 +43,7 @@ export const updateProductInfo = async (req, res) => {
             statusCode: 200,
             shortMessage: 'Updated',
             message: [{ path: '', message: 'Product info updated successfully' }],
-            data: updated,
+            data: null,
         });
     } catch (err) {
         if (err instanceof ZodError) {
