@@ -1,11 +1,11 @@
 import { z } from "zod";
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 
 // Schema validate cho updateShop
 const updateShopSchema = z.object({
-    owner: z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
-        message: "Invalid MongoDB ObjectId for owner",
-    }),
+    // owner: z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
+    //     message: "Invalid MongoDB ObjectId for owner",
+    // }),
     name: z.string().min(1, "Shop name is required").optional(), // Làm optional
     description: z.string().optional(), // Sửa lỗi chính tả từ iption
     logo: z.string().url().optional(),
